@@ -1,0 +1,8 @@
+.app__header {
+  display: flex;
+  justify-content: center;
+}
+
+.app__header__title {
+  color: #5280ad;
+}

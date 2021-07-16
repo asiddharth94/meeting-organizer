@@ -1,24 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+
+import "./App.css";
+import Header from "./components/Header/Header";
+import Home from "./components/Home/Home";
+import MeetingScheduler from "./components/MeetingScheduler/MeetingScheduler";
+import RoomFinder from "./components/RoomFinder/RoomFinder";
+
+const client = new ApolloClient({
+  uri: "http://smart-meeting.herokuapp.com",
+  cache: new InMemoryCache(),
+});
 
 function App() {
+  const [formData, setFormData] = useState("");
+
+  const handleFormData = (data) => {
+    setFormData(data);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <Router>
+        <div className="app">
+          <Header />
+          <Switch>
+            <Route path="/meetings">
+              <MeetingScheduler handleFormData={handleFormData} />
+            </Route>
+            <Route path="/rooms">
+              <RoomFinder formData={formData} />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </ApolloProvider>
   );
 }
 

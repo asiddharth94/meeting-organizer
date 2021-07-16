@@ -1,0 +1,39 @@
+.scheduler {
+  min-width: 400px;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem 1rem 0 0;
+  overflow: hidden;
+}
+
+.scheduler__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.scheduler__form > *:not(:last-child) {
+  padding: 1rem;
+  font-size: 1.25rem;
+}
+
+.scheduler__form label {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  color: #71a1d1;
+}
+
+.scheduler__form input {
+  border: none;
+  outline: none;
+}
+
+.scheduler__form select {
+  border: none;
+}
+
+.error {
+  text-align: center;
+  font-size: 1.25rem;
+  margin: 1rem;
+  color: rgb(193, 58, 58);
+  background-color: rgba(0, 0, 0, 0.015);
+}

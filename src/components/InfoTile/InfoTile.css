@@ -1,0 +1,23 @@
+.app_info-tile {
+  display: flex;
+  color: #71a1d1;
+  flex-direction: column;
+  justify-content: space-around;
+  min-height: 100px;
+  box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+}
+
+.app_info-tile > * {
+  margin: 0;
+}
+
+.app_info-tile p:first-child {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.app_info-tile p:not(:first-child) {
+  font-size: 1.25rem;
+  font-weight: 400;
+}
