@@ -40,15 +40,16 @@ function Home() {
 
   const getTotalMeetingsOfTheDay = (data) => {
     // const currentDate = getFormattedCurrentDate();
-    data.Buildings.forEach((item) => {
-      item.meetingRooms.forEach((i) => {
-        meetingsCount += i.meetings.length;
+    data.Buildings.forEach((building) => {
+      building.meetingRooms.forEach((meetingRoom) => {
+        meetingsCount += meetingRoom.meetings.length;
       });
     });
   };
 
   getTotalRooms(data);
   getTotalMeetingsOfTheDay(data);
+
   return (
     <div className="app__home">
       <InfoTile title="Buildings" numbers={data.Buildings.length} />

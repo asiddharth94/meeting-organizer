@@ -6,7 +6,8 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import "./RoomFinder.css";
 import Button from "../Button/Button";
 import InfoTile from "../InfoTile/InfoTile";
-import { meetingQuery, buildingQuery } from "../../Query/query.js";
+import { meetingQuery } from "../../Query/query.js";
+import { formatDate } from "../../util/util.js";
 
 const addMeeting = gql`
   mutation ($date: String!, $start: String!, $end: String!) {
@@ -26,8 +27,11 @@ const addMeeting = gql`
 
 function RoomFinder({ formData }) {
   const { date, start, end } = formData;
+
   const [scheduled, setScheduled] = useState(false);
+
   const { loading, error, data } = useQuery(meetingQuery);
+
   const [addMeet] = useMutation(addMeeting, {
     variables: { date, start, end },
     refetchQueries: [],
@@ -45,11 +49,6 @@ function RoomFinder({ formData }) {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Unable to get results</p>;
-
-  const formatDate = (date) => {
-    const dateArray = date.split("-");
-    return `${dateArray[2]}/${dateArray[1]}/${dateArray[0]}`;
-  };
 
   const formattedDate = formatDate(formData.date);
 
@@ -71,15 +70,15 @@ function RoomFinder({ formData }) {
 
   const meetingsOfDay = getMeetingsOfDay(data, formattedDate);
 
-  const checkIfOverlaps = (userInput, value, data) => {
-    if (value.length === 0) {
+  const checkIfOverlaps = (userInput, meetingsOfDay, data) => {
+    if (meetingsOfDay.length === 0) {
       const availableRooms = [];
       data.MeetingRooms.forEach((item) => {
         availableRooms.push({ room: item });
       });
       return availableRooms;
     } else {
-      const availableRooms = value.filter((val) => {
+      const availableRooms = meetingsOfDay.filter((val) => {
         return (
           userInput.endTime <= val.startTime ||
           userInput.startTime >= val.endTime

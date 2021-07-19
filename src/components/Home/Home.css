@@ -15,11 +15,11 @@
   animation: rotate 1s infinite linear;
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 20%;
 }
 
 @keyframes rotate {
   100% {
-    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
