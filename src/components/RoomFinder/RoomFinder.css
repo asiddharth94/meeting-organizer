@@ -4,3 +4,15 @@
   border-radius: 1rem 1rem 0 0;
   overflow: hidden;
 }
+
+.available-rooms label {
+  cursor: pointer;
+}
+
+.available-rooms input {
+  display: none;
+}
+
+.available-rooms input ~ label:first-child {
+  background-color: red;
+}

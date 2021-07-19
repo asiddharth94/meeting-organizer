@@ -1,4 +1,4 @@
-.app_info-tile {
+.info-tile {
   display: flex;
   color: #71a1d1;
   flex-direction: column;
@@ -8,16 +8,16 @@
   padding: 1rem;
 }
 
-.app_info-tile > * {
+.info-tile > * {
   margin: 0;
 }
 
-.app_info-tile p:first-child {
+.info-tile p:first-child {
   font-size: 1.5rem;
   font-weight: 700;
 }
 
-.app_info-tile p:not(:first-child) {
+.info-tile p:not(:first-child) {
   font-size: 1.25rem;
   font-weight: 400;
 }

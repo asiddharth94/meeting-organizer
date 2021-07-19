@@ -4,7 +4,7 @@ function InfoTile(props) {
   const tileProps = Object.keys({ ...props });
 
   return (
-    <div className="app_info-tile">
+    <div className="info-tile">
       {tileProps.map((item) => (
         <p key={props[item]}>{props[item]}</p>
       ))}

@@ -4,7 +4,6 @@ import Button from "../Button/Button";
 import { useState } from "react";
 
 function MeetingScheduler({ handleFormData }) {
-  // try with 13/02/2019 as of now
   const [date, setDate] = useState("");
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
@@ -12,16 +11,22 @@ function MeetingScheduler({ handleFormData }) {
   const [error, setError] = useState("");
 
   const handleFormSubmit = (event) => {
-    if (date && start && end && building) {
+    if (!date || !start || !end || !building) {
+      setError("Fill all fields to proceed!");
+      event.preventDefault();
+    } else if (start > end) {
+      setError("Start time is after the End time");
+      event.preventDefault();
+    } else if (start === end) {
+      setError("Start time is same as the End time");
+      event.preventDefault();
+    } else {
       handleFormData({
         date: date,
         start: start,
         end: end,
         building: building,
       });
-    } else {
-      setError("Fill all fields to proceed!");
-      event.preventDefault();
     }
   };
   return (

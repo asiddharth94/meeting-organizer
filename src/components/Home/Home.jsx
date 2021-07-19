@@ -1,32 +1,22 @@
 import { Link } from "react-router-dom";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 
 import "./Home.css";
 import Button from "../Button/Button";
 import InfoTile from "../InfoTile/InfoTile";
-
-const buildingQuery = gql`
-  {
-    Buildings {
-      name
-      meetingRooms {
-        name
-        meetings {
-          title
-          date
-          startTime
-          endTime
-        }
-      }
-    }
-  }
-`;
+import { buildingQuery } from "../../Query/query.js";
 
 function Home() {
-  const { loading, error, data } = useQuery(buildingQuery);
+  const { loading, error, data } = useQuery(buildingQuery, {
+    context: {
+      headers: {
+        token: "abhisid050195",
+      },
+    },
+  });
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (loading) return <div className="loading"></div>;
+  if (error) return <p>Unable to fetch data</p>;
 
   let roomsCount = 0;
   let meetingsCount = 0;
@@ -37,7 +27,19 @@ function Home() {
     });
   };
 
-  const getTotalMeetings = (data) => {
+  // const getFormattedCurrentDate = () => {
+  //   const date = new Date();
+  //   const currDate = date.getDate();
+  //   const formattedCurrDate = currDate < 9 ? `0${currDate}` : currDate;
+  //   const currMonth = date.getMonth();
+  //   const formattedCurrMonth =
+  //     currMonth < 8 ? `0${currMonth + 1}` : currMonth + 1;
+  //   const currYear = date.getFullYear();
+  //   return `${formattedCurrDate}/${formattedCurrMonth}/${currYear}`;
+  // };
+
+  const getTotalMeetingsOfTheDay = (data) => {
+    // const currentDate = getFormattedCurrentDate();
     data.Buildings.forEach((item) => {
       item.meetingRooms.forEach((i) => {
         meetingsCount += i.meetings.length;
@@ -46,7 +48,7 @@ function Home() {
   };
 
   getTotalRooms(data);
-  getTotalMeetings(data);
+  getTotalMeetingsOfTheDay(data);
   return (
     <div className="app__home">
       <InfoTile title="Buildings" numbers={data.Buildings.length} />
