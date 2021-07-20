@@ -10,11 +10,11 @@ import { meetingQuery } from "../../Query/query.js";
 import { formatDate } from "../../util/util.js";
 
 const addMeeting = gql`
-  mutation ($date: String!, $start: String!, $end: String!) {
+  mutation ($formattedDate: String!, $start: String!, $end: String!) {
     Meeting(
       id: 1
       title: "Booked for interview"
-      date: $date
+      date: $formattedDate
       startTime: $start
       endTime: $end
       meetingRoomId: 1
@@ -26,14 +26,22 @@ const addMeeting = gql`
 `;
 
 function RoomFinder({ formData }) {
-  const { date, start, end } = formData;
+  const { start, end } = formData;
+
+  const formattedDate = formatDate(formData.date);
 
   const [scheduled, setScheduled] = useState(false);
 
-  const { loading, error, data } = useQuery(meetingQuery);
+  const { loading, error, data } = useQuery(meetingQuery, {
+    context: {
+      headers: {
+        token: "abhisid050195",
+      },
+    },
+  });
 
   const [addMeet] = useMutation(addMeeting, {
-    variables: { date, start, end },
+    variables: { formattedDate, start, end },
     refetchQueries: [],
     context: {
       headers: {
@@ -49,8 +57,6 @@ function RoomFinder({ formData }) {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Unable to get results</p>;
-
-  const formattedDate = formatDate(formData.date);
 
   const getMeetingsOfDay = (data, formattedDate) => {
     let meetingsOfDay = [];
@@ -71,6 +77,7 @@ function RoomFinder({ formData }) {
   const meetingsOfDay = getMeetingsOfDay(data, formattedDate);
 
   const checkIfOverlaps = (userInput, meetingsOfDay, data) => {
+    console.log(scheduled);
     if (meetingsOfDay.length === 0) {
       const availableRooms = [];
       data.MeetingRooms.forEach((item) => {
@@ -122,8 +129,8 @@ function RoomFinder({ formData }) {
             className="available-rooms"
             onChange={(event) => handleOnChange(event)}
           >
-            {availableRooms.map((item, index) => (
-              <div key={index}>
+            {availableRooms.map((item) => (
+              <div key={item.room.name}>
                 <input
                   id={item.room.name}
                   type="radio"
