@@ -22,24 +22,25 @@ function App() {
   };
 
   return (
-    <ApolloProvider client={client}>
-      <Router>
-        <div className="app">
-          <Header />
-          <Switch>
-            <Route path="/meetings">
-              <MeetingScheduler handleFormData={handleFormData} />
-            </Route>
-            <Route path="/rooms">
-              <RoomFinder formData={formData} />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    </ApolloProvider>
+    // <ApolloProvider client={client}>
+    //   <Router>
+    //     <div className="app">
+    //       <Header />
+    //       <Switch>
+    //         <Route path="/meetings">
+    //           <MeetingScheduler handleFormData={handleFormData} />
+    //         </Route>
+    //         <Route path="/rooms">
+    //           <RoomFinder formData={formData} />
+    //         </Route>
+    //         <Route path="/">
+    //           <Home />
+    //         </Route>
+    //       </Switch>
+    //     </div>
+    //   </Router>
+    // </ApolloProvider>
+    <h1>Hello Dimpi!!!!!</h1>
   );
 }
 
